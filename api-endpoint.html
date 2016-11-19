@@ -1,0 +1,141 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../code-editor/code-editor.html">
+<link rel="import" href="../multi-switch/multi-switch.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../px-card/px-card.html">
+
+<!--
+`api-endpoint`
+This represents an entire api endpoint with settings and code
+
+@demo demo/index.html 
+-->
+
+<dom-module id="api-endpoint">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            multi-switch {
+                position: relative;
+                z-index: 10;
+                float: left;
+                padding: 14px 6px 0 0;
+            }
+
+            #api-field {
+                position: relative;
+                float: left;
+                width: 75%;
+            }
+
+            #version-field {
+                position: relative;
+                float: right;
+                width: 45px;
+            }
+
+            code-editor {
+                position: relative;
+                clear: both;
+            }
+
+            .endpoint {
+                width: 100%;
+                height: 62px;
+            }
+
+            paper-button {
+                width: 100px;
+                height: 40px;
+            }
+
+            paper-button.blue {
+                float: right;
+                background-color: #5e93ff;
+                color: white;
+            }
+
+            paper-button.blue[active] {
+                background-color: #5077d3;
+            }
+
+            paper-button.red {
+                float: left;
+                background-color: #e7524b;
+                color: white;
+            }
+
+            paper-button.red[active] {
+                background-color: #b7433d;
+            }
+        </style>
+        <px-card>
+            <div class="endpoint">
+                <multi-switch options='["GET","POST","PUT","DELETE"]'
+                              colors='["#5e93ff","#56de56","#ffb207","#f94242"]'></multi-switch>
+                <paper-input id="api-field" auto-validate validator='validatePath' label="{{url}}"
+                             value="{{api}}"></paper-input>
+                <paper-input id="version-field" label="Version" type="number" value="{{version}}">
+                    <div prefix>v</div>
+                </paper-input>
+            </div>
+            <code-editor mode="javascript" theme="default" editable>
+                function(req, res, body){
+
+                }
+            </code-editor>
+            <div class="endpoint">
+                <paper-button toggles raised class="red">
+                    <iron-icon icon="icons:delete-forever"></iron-icon>
+                    Delete
+                </paper-button>
+                <paper-button toggles raised class="blue">
+                    <iron-icon icon="icons:cloud-upload"></iron-icon>
+                    Deploy
+                </paper-button>
+            </div>
+        </px-card>
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'api-endpoint',
+
+            properties: {
+                base: {
+                    type: String,
+                    value: function () {
+                        return location.origin + '/';
+                    }
+                },
+                api: {
+                    type: String,
+                    value: ""
+                },
+                url: {
+                    type: String,
+                    computed: 'computeURI(base, api)'
+                },
+                version: {
+                    type: Number,
+                    value: 1
+                }
+            },
+            computeURI: function (base, api) {
+                console.log("computing");
+                return base + api;
+            },
+            validatePath: function () {
+                console.log("TestingV");
+            },
+            ready: function () {
+
+            }
+        });
+    </script>
+</dom-module>

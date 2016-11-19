@@ -1,0 +1,20 @@
+{
+  "name": "api-endpoint",
+  "description": "This represents an entire api endpoint with settings and",
+  "main": "api-endpoint.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "iron-elements": "PolymerElements/iron-elements#master",
+    "paper-elements": "PolymerElements/paper-elements#master",
+    "fontawesome":"~4.6.1",
+    "px-card": "^0.5.3",
+    "code-editor": "https://github.com/barkerb1/code-editor.git#master",
+    "multi-switch": "https://github.com/barkerb1/multi-switch.git#master"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  }
+}
