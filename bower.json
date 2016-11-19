@@ -1,5 +1,6 @@
 {
   "name": "api-endpoint",
+  "version": "1.0.0",
   "description": "This represents an entire api endpoint with settings and",
   "main": "api-endpoint.html",
   "dependencies": {
