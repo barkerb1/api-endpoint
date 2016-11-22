@@ -4,6 +4,7 @@
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../px-card/px-card.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 
 <!--
 `api-endpoint`
@@ -73,17 +74,28 @@ This represents an entire api endpoint with settings and code
                 background-color: #b7433d;
             }
         </style>
+
+        <iron-ajax
+                id="ajaxPost"
+                url="/v1/create"
+                method="POST"
+                content-type="application/json"
+                handle-as="json"
+                on-response="handleResponse"
+                on-error="handleError">
+        </iron-ajax>
+
         <px-card>
             <div class="endpoint">
-                <multi-switch options='["GET","POST","PUT","DELETE"]'
+                <multi-switch id="selector" options='["GET","POST","PUT","DELETE"]'
                               colors='["#5e93ff","#56de56","#ffb207","#f94242"]'></multi-switch>
-                <paper-input id="api-field" auto-validate validator='validatePath' label="{{url}}"
+                <paper-input id="apiField" auto-validate validator='validatePath' label="{{url}}"
                              value="{{api}}"></paper-input>
-                <paper-input id="version-field" label="Version" type="number" value="{{version}}">
+                <paper-input id="versionField" label="Version" type="number" value="{{version}}">
                     <div prefix>v</div>
                 </paper-input>
             </div>
-            <code-editor mode="javascript" theme="default" editable>
+            <code-editor id="code" mode="javascript" theme="default" editable>
                 function(req, res, body){
 
                 }
@@ -93,7 +105,7 @@ This represents an entire api endpoint with settings and code
                     <iron-icon icon="icons:delete-forever"></iron-icon>
                     Delete
                 </paper-button>
-                <paper-button toggles raised class="blue">
+                <paper-button toggles raised class="blue" on-tap="postAPI">
                     <iron-icon icon="icons:cloud-upload"></iron-icon>
                     Deploy
                 </paper-button>
@@ -132,6 +144,30 @@ This represents an entire api endpoint with settings and code
             },
             validatePath: function () {
                 console.log("TestingV");
+            },
+            postAPI: function () {
+                window.testing = this.$.code;
+                console.log(this.$.apiField.value);
+                console.log(this.$.selector.selected);
+                console.log(this.$.versionField.value);
+                console.log(this.$.code.getValue());
+
+                this.$.ajaxPost.params = {
+                    url: this.$.apiField.value,
+                    method: this.$.selector.selected,
+                    version: this.$.versionField.value,
+                    code: this.$.code.getValue()
+                };
+                console.log(this.$.ajaxPost);
+                this.$.ajaxPost.generateRequest();
+            },
+            handleError: function(e) {
+                console.log("Error posting");
+                console.log(e);
+            },
+            handleResponse: function(e) {
+                console.log("Success posting");
+                console.log(e);
             },
             ready: function () {
 
